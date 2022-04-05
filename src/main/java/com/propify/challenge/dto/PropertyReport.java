@@ -1,4 +1,6 @@
-package com.propify.challenge;
+package com.propify.challenge.dto;
+
+import com.propify.challenge.entity.PropertyType;
 
 import java.util.Map;
 

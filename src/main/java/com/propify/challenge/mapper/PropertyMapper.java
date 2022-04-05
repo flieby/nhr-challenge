@@ -1,5 +1,6 @@
-package com.propify.challenge;
+package com.propify.challenge.mapper;
 
+import com.propify.challenge.entity.Property;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Set;
