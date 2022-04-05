@@ -7,9 +7,17 @@ public class PropertyType {
     public static final PropertyType CONDOMINIUM = new PropertyType("Condominium");
     public static final PropertyType TOWNHOUSE = new PropertyType("Townhouse");
 
-    public String type;
+    private String type;
 
     public PropertyType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
         this.type = type;
     }
 }

@@ -29,9 +29,8 @@ public class PropertyMapperTest {
     @Test
     public void testInsert() {
         var property = new Property();
-        property.rentPrice = 3000.99;
-        property.type = PropertyType.MULTI_FAMILY;
-
+        property.setRentPrice(3000.99);
+        property.setType(PropertyType.MULTI_FAMILY);
         propertyMapper.insert(property);
 
         // TODO: add assertions
