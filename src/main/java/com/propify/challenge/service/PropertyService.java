@@ -1,9 +1,12 @@
 package com.propify.challenge.service;
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
+import com.propify.challenge.dto.PropertyDTO;
 import com.propify.challenge.mapper.AddressMapper;
 import com.propify.challenge.mapper.PropertyMapper;
 import com.propify.challenge.dto.PropertyReport;
 import com.propify.challenge.entity.Property;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +32,9 @@ public class PropertyService {
         return propertyMapper.findById(id);
     }
 
-    public void insert(Property property) {
+    public void insert(PropertyDTO dto) {
+        Property property = new Property();
+        BeanUtils.copyProperties(dto,property);
         propertyMapper.insert(property);
         System.out.println("CREATED: " + property.getId());
     }

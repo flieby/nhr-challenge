@@ -1,10 +1,13 @@
 package com.propify.challenge.controller;
 
+import com.propify.challenge.dto.PropertyDTO;
 import com.propify.challenge.dto.PropertyReport;
 import com.propify.challenge.entity.Property;
 import com.propify.challenge.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,9 +33,12 @@ public class PropertyController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void insert(@RequestBody Property property) {
+    public ResponseEntity insert(@RequestBody PropertyDTO dto) {
         // TODO: Property attributes must be validated
-        propertyService.insert(property);
+        if(dto==null)
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        propertyService.insert(dto);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     public void update(Property property) {

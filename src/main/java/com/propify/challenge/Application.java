@@ -1,9 +1,11 @@
 package com.propify.challenge;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@MapperScan("com.propify.challenge.mapper")
 public class Application {
 
 	public static void main(String[] args) {

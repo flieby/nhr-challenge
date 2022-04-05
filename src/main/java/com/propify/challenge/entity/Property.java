@@ -19,7 +19,6 @@ public class Property {
     private PropertyType type;
 
     @Column(name = "rent_price")
-    @JsonProperty("rent_price")
     private double rentPrice; // must be greater than 0, 2 decimal places
 
     private Address address; // must not be null
