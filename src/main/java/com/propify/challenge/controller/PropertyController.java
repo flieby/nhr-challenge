@@ -4,7 +4,10 @@ import com.propify.challenge.dto.PropertyReport;
 import com.propify.challenge.entity.Property;
 import com.propify.challenge.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
@@ -26,7 +29,8 @@ public class PropertyController {
         return propertyService.findById(id);
     }
 
-    public void insert(Property property) {
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void insert(@RequestBody Property property) {
         // TODO: Property attributes must be validated
         propertyService.insert(property);
     }
