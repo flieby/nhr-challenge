@@ -74,19 +74,16 @@ public class PropertyService {
         propertyReport.setTotalQuantity(all.size());
 
         // Calculate the quantity of each type, 0 if there is no properties.
-        // propertyReport.quantityPerType =
         propertyReport.setQuantityPerType(new HashMap<>());
         all.stream().collect(Collectors.groupingBy(Property::getType, Collectors.counting())).forEach((propertyType, aLong) -> {
             propertyReport.getQuantityPerType().put(propertyType, aLong.intValue());
         });
 
         // Calculate the average rent price (exclude the properties without rent price or with rent price = 0)
-        // propertyReport.averageRentPrice =
         double average = all.stream().mapToDouble(Property::getRentPrice).average().orElse(Double.NaN);
         propertyReport.setAverageRentPrice(average);
 
         // Calculate the quantity of properties in the state of Illinois (IL)
-        // propertyReport.illinoisQuantity =
         Long illinoisCount = all.stream().map(property -> property.getAddress().getCity()).filter(p -> p.equals("Illinois")).count();
         propertyReport.setIllinoisQuantity(illinoisCount.intValue());
 
