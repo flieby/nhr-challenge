@@ -1,6 +1,7 @@
 package com.propify.challenge.service;
 
 import com.propify.challenge.dto.PropertyDTO;
+import com.propify.challenge.entity.PropertyType;
 import com.propify.challenge.mapper.AddressMapper;
 import com.propify.challenge.mapper.PropertyMapper;
 import com.propify.challenge.dto.PropertyReport;
@@ -9,9 +10,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PropertyService {
@@ -67,20 +67,29 @@ public class PropertyService {
     }
 
     public PropertyReport propertyReport() {
-        var allProperties = propertyMapper.search(null, null);
-        var propertyReport = new PropertyReport();
+        Set<Property> all = propertyMapper.search(null, null);
+        PropertyReport propertyReport = new PropertyReport();
 
         // Calculate total quantity
-        // propertyReport.totalQuantity =
+        propertyReport.setTotalQuantity(all.size());
 
         // Calculate the quantity of each type, 0 if there is no properties.
         // propertyReport.quantityPerType =
+        propertyReport.setQuantityPerType(new HashMap<>());
+        all.stream().collect(Collectors.groupingBy(Property::getType, Collectors.counting())).forEach((propertyType, aLong) -> {
+            propertyReport.getQuantityPerType().put(propertyType, aLong.intValue());
+        });
 
         // Calculate the average rent price (exclude the properties without rent price or with rent price = 0)
         // propertyReport.averageRentPrice =
+        double average = all.stream().mapToDouble(Property::getRentPrice).average().orElse(Double.NaN);
+        propertyReport.setAverageRentPrice(average);
 
         // Calculate the quantity of properties in the state of Illinois (IL)
         // propertyReport.illinoisQuantity =
+        Long illinoisCount = all.stream().map(property -> property.getAddress().getCity()).filter(p -> p.equals("Illinois")).count();
+        propertyReport.setIllinoisQuantity(illinoisCount.intValue());
+
 
         return propertyReport;
     }

@@ -57,6 +57,7 @@ public class PropertyController {
         propertyService.delete(id);
     }
 
+    @RequestMapping(value = "/report", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public PropertyReport report() {
         return propertyService.propertyReport();
     }
