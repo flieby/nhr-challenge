@@ -1,6 +1,5 @@
 package com.propify.challenge.service;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.propify.challenge.dto.PropertyDTO;
 import com.propify.challenge.mapper.AddressMapper;
 import com.propify.challenge.mapper.PropertyMapper;
@@ -11,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class PropertyService {
@@ -24,12 +25,22 @@ public class PropertyService {
     @Autowired
     AlertService alertService;
 
-    public Collection<Property> search(String minRentPrice, String maxRentPrice) {
-        return propertyMapper.search(minRentPrice, maxRentPrice);
+    public Collection<PropertyDTO> search(String minRentPrice, String maxRentPrice) {
+        Set<Property> search = propertyMapper.search(minRentPrice, maxRentPrice);
+        Set<PropertyDTO> searchDTOs = new HashSet<>();
+        search.stream().forEachOrdered(property -> {
+            PropertyDTO dto = new PropertyDTO();
+            BeanUtils.copyProperties(property, dto);
+            searchDTOs.add(dto);
+        });
+        return searchDTOs;
     }
 
-    public Property findById(int id) {
-        return propertyMapper.findById(id);
+    public PropertyDTO findById(int id) {
+        Property byId = propertyMapper.findById(id);
+        PropertyDTO dto = new PropertyDTO();
+        BeanUtils.copyProperties(byId, dto);
+        return dto;
     }
 
     public void insert(PropertyDTO dto) {
@@ -39,7 +50,9 @@ public class PropertyService {
         System.out.println("CREATED: " + property.getId());
     }
 
-    public void update(Property property) {
+    public void update(PropertyDTO dto) {
+        Property property = new Property();
+        BeanUtils.copyProperties(dto,property);
         propertyMapper.update(property);
         System.out.println("UPDATED: " + property.getId());
     }

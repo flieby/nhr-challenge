@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -24,28 +21,38 @@ public class PropertyController {
 
     // API endpoints for CRUD operations on entities of type Property
 
-    public Collection<Property> search(String minRentPrice, String maxRentPrice) {
+    @RequestMapping(value = "/search", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Collection<PropertyDTO> search(@PathVariable(name = "min_rent_price") String minRentPrice, @PathVariable(name = "max_rent_price") String maxRentPrice) {
         return propertyService.search(minRentPrice, maxRentPrice);
     }
 
-    public Property findById(int id) {
-        return propertyService.findById(id);
+    @RequestMapping(method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PropertyDTO> findById(@PathVariable(name = "id") int id) {
+        PropertyDTO dto = propertyService.findById(id);
+        if(dto==null)
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity insert(@RequestBody PropertyDTO dto) {
         // TODO: Property attributes must be validated
-        if(dto==null)
+        if(dto==null || dto.getId()!=0)
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         propertyService.insert(dto);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public void update(Property property) {
+    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity update(@RequestBody PropertyDTO dto) {
         // TODO: Property attributes must be validated
-        propertyService.update(property);
+        if(dto==null || dto.getId()==0)
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        propertyService.update(dto);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(int id) {
         propertyService.delete(id);
     }
