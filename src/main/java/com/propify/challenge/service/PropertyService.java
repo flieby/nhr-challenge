@@ -4,14 +4,19 @@ import com.propify.challenge.mapper.AddressMapper;
 import com.propify.challenge.mapper.PropertyMapper;
 import com.propify.challenge.dto.PropertyReport;
 import com.propify.challenge.entity.Property;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@Service
 public class PropertyService {
 
-    PropertyMapper propertyMapper;
+    @Autowired
+    PropertyMapper propertyMapper; //Implementatoin pending
 
-    AddressMapper addressMapper;
+    @Autowired
+    AddressMapper addressMapper; //Implementatoin pending
 
     AlertService alertService;
 

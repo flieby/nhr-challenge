@@ -3,11 +3,17 @@ package com.propify.challenge.controller;
 import com.propify.challenge.dto.PropertyReport;
 import com.propify.challenge.entity.Property;
 import com.propify.challenge.service.PropertyService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 
+@RestController
+@RequestMapping("/properties")
 public class PropertyController {
 
+    @Autowired
     PropertyService propertyService;
 
     // API endpoints for CRUD operations on entities of type Property
