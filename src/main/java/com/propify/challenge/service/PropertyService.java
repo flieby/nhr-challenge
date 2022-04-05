@@ -18,6 +18,7 @@ public class PropertyService {
     @Autowired
     AddressMapper addressMapper; //Implementatoin pending
 
+    @Autowired
     AlertService alertService;
 
     public Collection<Property> search(String minRentPrice, String maxRentPrice) {

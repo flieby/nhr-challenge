@@ -3,8 +3,10 @@ package com.propify.challenge.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Entity(name = "property")
+@Entity
+@Table(name = "property")
 public class Property {
 
     @Id
